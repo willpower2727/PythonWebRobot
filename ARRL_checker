@@ -1,0 +1,22 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+import sys
+
+##print sys.path
+
+
+
+br = webdriver.Chrome()
+##print br
+br.implicitly_wait(6)
+
+br.get('http://www.arrl.org/fcc/search')
+br.implicitly_wait(6)
+
+##search = br.find_element_by_id('fccSearchForm')
+field = br.find_element_by_xpath('//fccSearchForm')
+
+##search = br.find_element_by_name('fccSearchForm')
+print field
+
+br.close()
