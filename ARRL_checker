@@ -7,16 +7,26 @@ import sys
 
 
 br = webdriver.Chrome()
-##print br
-br.implicitly_wait(6)
 
-br.get('http://www.arrl.org/fcc/search')
-br.implicitly_wait(6)
+##print br
+br.implicitly_wait(8)
+
+##br.get('http://www.arrl.org/fcc/search')
+br.get('http://wireless2.fcc.gov/UlsApp/UlsSearch/searchAmateur.jsp')
+br.implicitly_wait(8)
 
 ##search = br.find_element_by_id('fccSearchForm')
-field = br.find_element_by_xpath('//fccSearchForm')
+##field = br.find_element_by_xpath('//fccSearchForm')
+namebox = br.find_element_by_name('fiOwnerName')
+statebox = br.find_element_by_name('ulsState')
+searchbutton = br.find_element_by_name('Search')
 
 ##search = br.find_element_by_name('fccSearchForm')
-print field
+##print field
 
-br.close()
+namebox.send_keys('Anderton')
+statebox.send_keys('Pennsylvania')
+
+/html/body/table[4]/tbody/tr/td[2]/form/table/tbody/tr/td/table/tbody/tr[34]/td/table/tbody/tr[1]/td[2]/input
+
+##br.close()
