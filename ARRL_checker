@@ -4,7 +4,10 @@ import sys
 
 ##print sys.path
 
-
+namefile = open('names.txt')
+names = namefile.readlines()
+print names
+results = [0]*len(names)
 
 br = webdriver.Chrome()
 
@@ -15,18 +18,29 @@ br.implicitly_wait(8)
 br.get('http://wireless2.fcc.gov/UlsApp/UlsSearch/searchAmateur.jsp')
 br.implicitly_wait(8)
 
-##search = br.find_element_by_id('fccSearchForm')
-##field = br.find_element_by_xpath('//fccSearchForm')
-namebox = br.find_element_by_name('fiOwnerName')
-statebox = br.find_element_by_name('ulsState')
-searchbutton = br.find_element_by_name('Search')
+for z in range(1,len(names)):
+    namebox = br.find_element_by_name('fiOwnerName')
+    statebox = br.find_element_by_name('ulsState')
+    searchbutton = br.find_element_by_xpath('/html/body/table[4]/tbody/tr/td[2]/form/table/tbody/tr/td/table/tbody/tr[34]/td/table/tbody/tr[1]/td[2]/input')
 
-##search = br.find_element_by_name('fccSearchForm')
-##print field
+    namebox.send_keys('Pashuta')
+    statebox.send_keys('Pennsylvania')
+    br.implicitly_wait(1)
+    searchbutton.click()
+    br.implicitly_wait(6)
 
-namebox.send_keys('Anderton')
-statebox.send_keys('Pennsylvania')
+    try:
+        numresults = br.find_element_by_xpath('/html/body/table[4]/tbody/tr/td[2]/div/table/tbody/tr[3]/td/table/tbody/tr/td/b[3]')
+        print numresults.text
+        results[z] = numresults.text
+    except:
+        numresults = 0
+        print numresults
+        results[z] = 0
 
-/html/body/table[4]/tbody/tr/td[2]/form/table/tbody/tr/td/table/tbody/tr[34]/td/table/tbody/tr[1]/td[2]/input
+    br.implicitly_wait(1)
+    br.get('http://wireless2.fcc.gov/UlsApp/UlsSearch/searchAmateur.jsp')
+    br.implicitly_wait(8)
+##/html/body/table[4]/tbody/tr/td[2]/form/table/tbody/tr/td/table/tbody/tr[34]/td/table/tbody/tr[1]/td[2]/input
 
 ##br.close()
