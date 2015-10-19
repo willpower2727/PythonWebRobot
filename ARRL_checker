@@ -3,9 +3,9 @@ from selenium.webdriver.common.by import By
 import sys
 import csv
 
-##print sys.path
+print sys.path
 
-namefile = open('P4.txt')
+namefile = open('Cranberry.txt')
 names = namefile.readlines()
 for z in range(0,len(names)):
     temp = names[z]
@@ -14,7 +14,6 @@ for z in range(0,len(names)):
 
 ##names = ('Anderton','Pashuta')
     
-##names = names.rstrip('\n')
 print names
 print len(names)
 results = [0]*len(names)
@@ -27,42 +26,73 @@ br.implicitly_wait(8)
 ##br.get('http://www.arrl.org/fcc/search')
 br.get('http://wireless2.fcc.gov/UlsApp/UlsSearch/searchAmateur.jsp')
 br.implicitly_wait(8)
-try:
-    for z in range(0,len(names)):
-        namebox = br.find_element_by_name('fiOwnerName')
-        br.implicitly_wait(0.25)
-        statebox = br.find_element_by_name('ulsState')
-    ##    statebox = br.find_element_by_xpath('/html/body/table[4]/tbody/tr/td[2]/form/table/tbody/tr/td/table/tbody/tr[18]/td[3]/select')
-        searchbutton = br.find_element_by_xpath('/html/body/table[4]/tbody/tr/td[2]/form/table/tbody/tr/td/table/tbody/tr[34]/td/table/tbody/tr[1]/td[2]/input')
-        tname = names[z].rstrip('\n')
-        print tname
-        namebox.send_keys(tname)
-        statebox.send_keys('Pennsylvania')
-    ##    webdriver.support.select.select(statebox.select_by_value('PA').click())
-    ##    Select(statebox.select_by_value('PA').click())
-        br.implicitly_wait(1)
-        searchbutton.click()
-        br.implicitly_wait(4)
 
-        try:
-            numresults = br.find_element_by_xpath('/html/body/table[4]/tbody/tr/td[2]/div/table/tbody/tr[3]/td/table/tbody/tr/td/b[3]')
-            print numresults.text
-            results[z] = numresults.text
-        except:
+for z in range(0,len(names)):
+    namebox = br.find_element_by_name('fiOwnerName')
+    br.implicitly_wait(0.25)
+    statebox = br.find_element_by_name('ulsState')
+##    statebox = br.find_element_by_xpath('/html/body/table[4]/tbody/tr/td[2]/form/table/tbody/tr/td/table/tbody/tr[18]/td[3]/select')
+    searchbutton = br.find_element_by_xpath('/html/body/table[4]/tbody/tr/td[2]/form/table/tbody/tr/td/table/tbody/tr[34]/td/table/tbody/tr[1]/td[2]/input')
+    tname = names[z].rstrip('\n')
+    print tname
+    namebox.send_keys(tname)
+    statebox.send_keys('Pennsylvania')
+##    webdriver.support.select.select(statebox.select_by_value('PA').click())
+##    Select(statebox.select_by_value('PA').click())
+    br.implicitly_wait(1)
+    searchbutton.click()
+    br.implicitly_wait(4)
+
+    try:
+        numresults = br.find_element_by_xpath('/html/body/table[4]/tbody/tr/td[2]/div/table/tbody/tr[3]/td/table/tbody/tr/td/b[3]')
+        print numresults.text
+        results[z] = numresults.text
+    except:
+        numresults = 0
+        print numresults
+        results[z] = 0
+
+    br.implicitly_wait(1)
+    br.get('http://wireless2.fcc.gov/UlsApp/UlsSearch/searchAmateur.jsp')
+    br.implicitly_wait(5)
+
+
+##try:
+##    for z in range(0,len(names)):
+##        namebox = br.find_element_by_name('fiOwnerName')
+##        br.implicitly_wait(0.25)
+##        statebox = br.find_element_by_name('ulsState')
+##    ##    statebox = br.find_element_by_xpath('/html/body/table[4]/tbody/tr/td[2]/form/table/tbody/tr/td/table/tbody/tr[18]/td[3]/select')
+##        searchbutton = br.find_element_by_xpath('/html/body/table[4]/tbody/tr/td[2]/form/table/tbody/tr/td/table/tbody/tr[34]/td/table/tbody/tr[1]/td[2]/input')
+##        tname = names[z].rstrip('\n')
+##        print tname
+##        namebox.send_keys(tname)
+##        statebox.send_keys('Pennsylvania')
+##    ##    webdriver.support.select.select(statebox.select_by_value('PA').click())
+##    ##    Select(statebox.select_by_value('PA').click())
+##        br.implicitly_wait(1)
+##        searchbutton.click()
+##        br.implicitly_wait(4)
+##
+##        try:
+##            numresults = br.find_element_by_xpath('/html/body/table[4]/tbody/tr/td[2]/div/table/tbody/tr[3]/td/table/tbody/tr/td/b[3]')
+##            print numresults.text
+##            results[z] = numresults.text
+##        except:
 ##            numresults = 0
-            print numresults
-            results[z] = 0
-
-        br.implicitly_wait(1)
-        br.get('http://wireless2.fcc.gov/UlsApp/UlsSearch/searchAmateur.jsp')
-        br.implicitly_wait(8)
-except:
-        pass
+##            print numresults
+##            results[z] = 0
+##
+##        br.implicitly_wait(1)
+##        br.get('http://wireless2.fcc.gov/UlsApp/UlsSearch/searchAmateur.jsp')
+##        br.implicitly_wait(5)
+##except:
+##        pass
 #write to file
 towrite = zip(names,results)
 print('Towrite:',towrite)
 
-f = open('P4_PA.csv','w')
+f = open('Cranberry_PA.csv','w')
 writer = csv.writer(f,delimiter=',')
 writer.writerows(towrite)
 f.close()
